@@ -18,38 +18,39 @@ KHASH_MAP_INIT_STR(ptr, void *)
  * Hash type.
  */
 
-typedef khash_t(ptr) hash_t;
+typedef khash_t(ptr) rpc_hash_t;
 
 /*
  * Allocate a new hash.
  */
 
-#define hash_new() kh_init(ptr)
+#define rpc_hash_new() kh_init (ptr)
 
 /*
  * Destroy the hash.
  */
 
-#define hash_free(self) kh_destroy(ptr, self)
+#define rpc_hash_free(self) kh_destroy (ptr, self)
 
 /*
  * Hash size.
  */
 
-#define hash_size kh_size
+#define rpc_hash_size kh_size
 
 /*
  * Remove all pairs in the hash.
  */
 
-#define hash_clear(self) kh_clear(ptr, self)
+#define rpc_hash_clear(self) kh_clear (ptr, self)
 
 /*
  * Iterate hash keys and ptrs, populating
  * `key` and `val`.
  */
 
-#define hash_each(self, block) { \
+#define rpc_hash_each(self, block)                                             \
+    { \
    const char *key; \
    void *val; \
    khiter_t k; \
@@ -65,7 +66,8 @@ typedef khash_t(ptr) hash_t;
  * Iterate hash keys, populating `key`.
  */
 
-#define hash_each_key(self, block) { \
+#define rpc_hash_each_key(self, block)                                         \
+    { \
     const char *key; \
     khiter_t k; \
     for (k = kh_begin(self); k < kh_end(self); ++k) { \
@@ -79,7 +81,8 @@ typedef khash_t(ptr) hash_t;
  * Iterate hash ptrs, populating `val`.
  */
 
-#define hash_each_val(self, block) { \
+#define rpc_hash_each_val(self, block)                                         \
+    { \
     void *val; \
     khiter_t k; \
     for (k = kh_begin(self); k < kh_end(self); ++k) { \
@@ -91,19 +94,14 @@ typedef khash_t(ptr) hash_t;
 
 // protos
 
-void
-hash_set(hash_t *self, const char *key, void *val);
+void rpc_hash_set (rpc_hash_t *self, const char *key, void *val);
 
-void *
-hash_get(hash_t *self, const char *key);
+void *rpc_hash_get (rpc_hash_t *self, const char *key);
 
-int
-hash_has(hash_t *self, const char *key);
+int rpc_hash_has (rpc_hash_t *self, const char *key);
 
-void
-hash_del(hash_t *self, const char *key);
+void rpc_hash_del (rpc_hash_t *self, const char *key);
 
-void
-hash_clear(hash_t *self);
+void rpc_hash_clear (rpc_hash_t *self);
 
 #endif /* HASH */
